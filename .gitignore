@@ -8,9 +8,6 @@ db.sqlite3
 db.sqlite3-journal
 media
 
-# Collected static files
-staticfiles/
-
 ### Django.Python Stack ###
 # Byte-compiled / optimized / DLL files
 *.py[cod]
