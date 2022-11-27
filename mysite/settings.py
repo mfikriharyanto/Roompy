@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-rc^*w^w&6g9_(uvx#6s*bnt!w)l0rdi%!l7mv#y%uc&x%wo5pk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if PRODUCTION else True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['https://roompy.up.railway.app','https://127.0.0.1']
 
 # Application definition
 
