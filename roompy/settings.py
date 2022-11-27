@@ -27,7 +27,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", "#jggk^*$tu@z4ne2&($gocdx2t*3m*^qu*no*3ap6l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if PRODUCTION else True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['https://roompy.up.railway.app','https://127.0.0.1']
 
 # Application definition
 
@@ -57,7 +57,7 @@ ROOT_URLCONF = 'roompy.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -115,13 +115,18 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = '/login'
+
+LOGIN_REDIRECT_URL = '/'
+
+LOGOUT_REDIRECT_URL = '/login'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Jakarta'
 
 USE_I18N = True
 
