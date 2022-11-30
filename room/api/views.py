@@ -8,3 +8,9 @@ def getRooms(request):
   rooms = Room.objects.all()
   serializer = RoomSerializer(rooms, many=True)
   return Response(serializer.data)
+
+@api_view(['GET'])
+def getTrendingRooms(request):
+  trending_rooms = Room.objects.all().order_by('-total_followers')[:10]
+  serializer = RoomSerializer(trending_rooms, many=True)
+  return Response(serializer.data)
