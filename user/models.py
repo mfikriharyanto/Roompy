@@ -3,4 +3,4 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
 	email = models.EmailField(unique=True)
-	following_room = models.ManyToManyField(to='room.Room')
+	following_room = models.ManyToManyField(to='room.Room', blank= True)
