@@ -30,3 +30,24 @@ def postFollowUser(request, pk):
     return Response({'message': f'User with id {pk} does not exist'}, status=404)
 
   return Response({'message': f'Success follow {followingUser}'}, status=200)
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticatedOrReadOnly])
+def postUnfollowUser(request, pk):
+  try:
+    followerUser = User.objects.get(id = request.user.id)
+    followingUser = User.objects.get(id = pk)
+
+    if followerUser == followingUser:
+      return Response({'message': 'You don\'t follow your own account'}, status=400)
+
+    if not followerUser.following_user.filter(id = pk).exists():
+      return Response({'message': f'You haven\'t followed {followingUser}'}, status=400)
+
+    followerUser.following_user.remove(followingUser)
+    followingUser.follower_user.remove(followerUser)
+      
+  except User.DoesNotExist:
+    return Response({'message': f'User with id {pk} does not exist'}, status=404)
+
+  return Response({'message': f'Success unfollow {followingUser}'}, status=200)
