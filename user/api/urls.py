@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-  path('', views.getUsers),
-  path('<str:pk>/follow', views.postFollowUser),
-  path('<str:pk>/unfollow', views.postUnfollowUser),
+  path('', views.get_all_users),
+  path('<str:pk>/follow', views.post_follow_user),
+  path('<str:pk>/unfollow', views.post_unfollow_user),
 ]
