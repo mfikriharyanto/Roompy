@@ -4,7 +4,9 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
 	email = models.EmailField(unique=True)
 	follower_user = models.ManyToManyField('self', blank=True, related_name='follower_users', symmetrical=False)
+	total_follower_user = models.IntegerField(default=0)
 	following_user = models.ManyToManyField('self', blank=True, related_name='following_users', symmetrical=False)
+	total_following_user = models.IntegerField(default=0)
 	following_room = models.ManyToManyField(to='room.Room', blank=True)
 
 	def add_following(self, user):
@@ -35,14 +37,24 @@ class UserManager():
 		followed_user = UserManager.get_user(followed_user_id)
 
 		following_user.remove_following(followed_user)
+		following_user.total_following_user -= 1
+		following_user.save()
+
 		followed_user.remove_follower(following_user)
+		followed_user.total_follower_user -= 1
+		followed_user.save()
 
 	def follow_user(following_user_id, followed_user_id):
 		following_user = UserManager.get_user(following_user_id)
 		followed_user = UserManager.get_user(followed_user_id)
 
 		following_user.add_following(followed_user)
+		following_user.total_following_user += 1
+		following_user.save()
+		
 		followed_user.add_follower(following_user)
+		followed_user.total_follower_user += 1
+		followed_user.save()
 
 	def is_user_follow(following_user, followed_user_id):
 		return following_user.following_user.filter(id = followed_user_id).exists()
