@@ -56,3 +56,6 @@ class UserManager():
 
 	def is_user_follow(following_user, followed_user_id):
 		return following_user.following_user.filter(id = followed_user_id).exists()
+
+	def get_top_users(number_of_users):
+		return User.objects.all().order_by('-total_follower_user', 'total_following_user', 'id')[:number_of_users]
