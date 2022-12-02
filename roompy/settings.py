@@ -25,7 +25,7 @@ PRODUCTION = os.getenv("DATABASE_URL") is not None
 SECRET_KEY = os.getenv("SECRET_KEY", "#jggk^*$tu@z4ne2&($gocdx2t*3m*^qu*no*3ap6l1lqz_2kr")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False if PRODUCTION else True
+DEBUG = True
 
 ALLOWED_HOSTS = ['https://roompy.up.railway.app', 'localhost', '127.0.0.1']
 
