@@ -11,15 +11,23 @@ class User(AbstractUser):
 
 	def add_following(self, user):
 		self.following_user.add(user)
+		self.total_following_user += 1
+		self.save()
 
 	def add_follower(self, user):
 		self.follower_user.add(user)
+		self.total_follower_user += 1
+		self.save()
 
 	def remove_following(self, user):
 		self.following_user.remove(user)
+		self.total_following_user -= 1
+		self.save()
 
 	def remove_follower(self, user):
 		self.follower_user.remove(user)
+		self.total_follower_user -= 1
+		self.save()
 
 class UserManager():
 	def get_user(user_id):
@@ -37,24 +45,14 @@ class UserManager():
 		followed_user = UserManager.get_user(followed_user_id)
 
 		following_user.remove_following(followed_user)
-		following_user.total_following_user -= 1
-		following_user.save()
-
 		followed_user.remove_follower(following_user)
-		followed_user.total_follower_user -= 1
-		followed_user.save()
 
 	def follow_user(following_user_id, followed_user_id):
 		following_user = UserManager.get_user(following_user_id)
 		followed_user = UserManager.get_user(followed_user_id)
 
 		following_user.add_following(followed_user)
-		following_user.total_following_user += 1
-		following_user.save()
-		
 		followed_user.add_follower(following_user)
-		followed_user.total_follower_user += 1
-		followed_user.save()
 
 	def is_user_follow(following_user, followed_user_id):
 		return following_user.following_user.filter(id = followed_user_id).exists()
