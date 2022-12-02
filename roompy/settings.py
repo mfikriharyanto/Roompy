@@ -25,7 +25,7 @@ PRODUCTION = os.getenv("DATABASE_URL") is not None
 SECRET_KEY = os.getenv("SECRET_KEY", "#jggk^*$tu@z4ne2&($gocdx2t*3m*^qu*no*3ap6l1lqz_2kr")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if PRODUCTION else True
 
 ALLOWED_HOSTS = ["*"]
 
