@@ -27,7 +27,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", "#jggk^*$tu@z4ne2&($gocdx2t*3m*^qu*no*3ap6l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False if PRODUCTION else True
 
-ALLOWED_HOSTS = ['https://roompy.up.railway.app','https://127.0.0.1']
+ALLOWED_HOSTS = ['https://roompy.up.railway.app', 'localhost', '127.0.0.1']
 
 # Application definition
 
@@ -39,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'base',
+    'user',
+    'room',
 ]
 
 MIDDLEWARE = [
@@ -72,7 +76,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'roompy.wsgi.application'
 
-CSRF_TRUSTED_ORIGINS = ['https://roompy.up.railway.app','https://127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://roompy.up.railway.app']
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -114,6 +118,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+AUTH_USER_MODEL = 'user.User'
 
 LOGIN_URL = '/login'
 
