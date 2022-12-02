@@ -47,3 +47,9 @@ def post_unfollow_user(request, pk):
     return Response({'message': f'User with id {pk} does not exist'}, status=404)
 
   return Response({'message': f'Success unfollow {followed_user}'}, status=200)
+
+@api_view(['GET'])
+def get_top_users(request):
+  top_users = UserManager.get_top_users(10)
+  serializer = UserSerializer(top_users, many=True)
+  return Response(serializer.data)
