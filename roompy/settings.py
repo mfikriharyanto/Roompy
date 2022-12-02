@@ -27,7 +27,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", "#jggk^*$tu@z4ne2&($gocdx2t*3m*^qu*no*3ap6l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://roompy.up.railway.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
