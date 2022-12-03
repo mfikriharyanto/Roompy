@@ -9,6 +9,10 @@ class User(AbstractUser):
 	total_following_user = models.IntegerField(default=0)
 	following_room = models.ManyToManyField(to='room.Room', blank=True)
 
+	name = models.CharField(max_length=20)
+	about = models.TextField(max_length=200)
+	
+
 	def add_following(self, user):
 		self.following_user.add(user)
 		self.total_following_user += 1
@@ -59,3 +63,6 @@ class UserManager():
 
 	def get_top_users(number_of_users):
 		return User.objects.all().order_by('-total_follower_user', 'total_following_user', 'id')[:number_of_users]
+
+	def edit_user(user_id, details):
+		pass
