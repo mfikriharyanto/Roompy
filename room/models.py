@@ -2,21 +2,14 @@ from django.db import models
 from user.models import User
 from topics.models import Topics
 
-class Topic(models.Model):
-    name = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.name
-
 class Room(models.Model):
     name = models.CharField(max_length = 30)
     description = models.CharField(max_length = 200)
     creator = models.ForeignKey(User, on_delete = models.CASCADE)
-    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
     total_followers = models.IntegerField(default=0)
     total_upvote = models.IntegerField(default=0)
     total_downvote = models.IntegerField(default=0)
-    room_topic = models.ForeignKey(Topics, on_delete= models.CASCADE, null=True)
+    topic = models.ForeignKey(Topics, on_delete=models.SET_NULL, null=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
