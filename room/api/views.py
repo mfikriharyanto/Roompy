@@ -2,8 +2,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from room.models import Room, Topic, RoomManager
+from room.models import Room, RoomManager
 from user.models import User
+from topics.models import Topics, TopicsManager
 from .serializers import RoomSerializer
 
 @api_view(['GET'])
@@ -52,7 +53,10 @@ def createRoom(request):
   topic_name = request.data.get('topic')
 
   # create topic if topic doesn't exists
-  topic, created = Topic.objects.get_or_create(name=topic_name)
+  try:
+    topic = Topics.objects.get(name=topic_name)
+  except Topics.DoesNotExist:
+    topic = Topics.objects.create(name= topic_name, topic_creator= request.user)
 
   room = Room.objects.create(
       creator=request.user,
