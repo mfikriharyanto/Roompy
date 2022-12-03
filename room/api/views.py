@@ -1,7 +1,10 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from room.models import Room
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from room.models import Room, Topic
 from user.models import User
+from ..forms import RoomForm
 from .serializers import RoomSerializer
 
 @api_view(['GET'])
@@ -9,6 +12,13 @@ def getRooms(request):
   rooms = Room.objects.all()
   serializer = RoomSerializer(rooms, many=True)
   return Response(serializer.data)
+
+@api_view(['GET'])
+def getRoom(request, pk):
+    room = Room.objects.get(id=pk)
+
+    serializer = RoomSerializer(room, many=False)
+    return Response(serializer.data)
 
 @api_view(['GET'])
 def getTrendingRooms(request):
@@ -30,3 +40,25 @@ def postFollowRoom(request, pk):
 
   serializer = RoomSerializer(room, many=False)
   return Response(serializer.data)
+
+@api_view(['POST'])
+def createRoom(request):
+
+  print("REQUEST: ")
+  print(request.user)
+
+  topic_name = request.data.get('topic')
+
+  # create topic if topic doesn't exists
+  topic, created = Topic.objects.get_or_create(name=topic_name)
+
+  room = Room.objects.create(
+      creator=request.user,
+      topic=topic,
+      name=request.data.get('name'),
+      description=request.data.get('description')
+  )
+
+  serializer = RoomSerializer(room, many=False)
+  return Response(serializer.data)
+
