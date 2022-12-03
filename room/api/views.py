@@ -15,10 +15,10 @@ def getRooms(request):
 
 @api_view(['GET'])
 def getRoom(request, pk):
-    room = Room.objects.get(id=pk)
-
-    serializer = RoomSerializer(room, many=False)
-    return Response(serializer.data)
+  room = Room.objects.get(id=pk)
+  
+  serializer = RoomSerializer(room, many=False)
+  return Response(serializer.data)
 
 @api_view(['GET'])
 def getTrendingRooms(request):
