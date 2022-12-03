@@ -23,3 +23,12 @@ class Room(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class RoomManager():
+    def get_room(pk):
+        try:
+            room = Room.objects.get(id=pk)
+            return room
+        except Room.DoesNotExist:
+            return None
