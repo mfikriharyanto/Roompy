@@ -2,9 +2,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from room.models import Room, Topic
+from room.models import Room, Topic, RoomManager
 from user.models import User
-from ..forms import RoomForm
 from .serializers import RoomSerializer
 
 @api_view(['GET'])
@@ -15,7 +14,10 @@ def getRooms(request):
 
 @api_view(['GET'])
 def getRoom(request, pk):
-  room = Room.objects.get(id=pk)
+  room = RoomManager.get_room(pk)
+
+  if room == None:
+    return Response({'message': f'Room with id {pk} does not exist'}, status=404)
   
   serializer = RoomSerializer(room, many=False)
   return Response(serializer.data)
