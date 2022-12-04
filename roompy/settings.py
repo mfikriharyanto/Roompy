@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'base',
     'user',
     'room',
+    'topics',
 ]
 
 MIDDLEWARE = [

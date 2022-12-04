@@ -23,4 +23,6 @@ urlpatterns = [
     path('api/users/', include('user.api.urls')),
     path('rooms/', include('room.urls')),
     path('api/rooms/', include('room.api.urls')),
+    path('topics/',include ('topics.urls')),
+    path('api/topics/',include ('topics.api.urls')),
 ]
