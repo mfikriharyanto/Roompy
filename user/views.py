@@ -1,3 +1,4 @@
 from django.shortcuts import render
 
-# Create your views here.
+def top_users(request):
+  return render(request, "top_users.html")
