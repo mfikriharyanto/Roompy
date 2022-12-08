@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+	{% block title %}Top Users{% endblock %}
+
+	{% block content %}
+		<div class="container p-4">
+			<h2 class="text-center font-weight-bold">Top Users</h2>
+		</div>
+		<div class="container-fluid">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th scope="col"></th>
+						<th scope="col">Username</th>
+						<th scope="col">Follower</th>
+						<th scope="col">Following</th>
+						<th scope="col">Status</th>
+					</tr>
+				</thead>
+				<tbody id="top_users">
+	
+				</tbody>
+			</table>
+		</div>	
+  {% endblock %}
+
+	{% block script %}
+    <script src="{% static 'js/top_users.js' %}" type="text/javascript"></script>
+	{% endblock script %}
