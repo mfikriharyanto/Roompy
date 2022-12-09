@@ -55,6 +55,7 @@ def get_top_users(request):
   return Response(serializer.data)
 
 @api_view(['GET'])
+@permission_classes([permissions.IsAuthenticatedOrReadOnly])
 def check_follow(request, pk):
   following_user = UserManager.get_user(request.user.id)
   followed_user = UserManager.get_user(pk)
