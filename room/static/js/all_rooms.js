@@ -9,21 +9,31 @@ $.ajax ({
   type: 'GET',
   url: '../api/rooms/',
   success: function(response){
-  
-      response.forEach(element => {
-        allRoom.innerHTML += `
-        <div class="card mt-4">
-          <h5 class="card-header">${element.name}</h5>
-          <div class="card-body">
-            <p class="card-text">${element.description}</p>
-            <a href="https://google.com/" class="btn btn-dark stretched-link">Go to Room</a>
+    response.forEach(element => {
+      console.log(element.topic)
+      $.ajax ({
+        type: 'GET',
+        url: '../api/topics/' + element.topic,
+        success: function(response_topic){
+          allRoom.innerHTML += `
+          <div class="card mt-4">
+            <h5 class="card-header">${element.name}</h5>
+            <div class="card-body">
+              <p class="card-text">${element.description}</p>
+              <p class="card-text">topic: ${response_topic.name}</p>
+              <a href="../rooms/${element.id}" class="btn btn-dark stretched-link">Go to Room</a>
+            </div>
           </div>
-        </div>
-        `
-      });
+          `
+        },
+        error: function(error){
+          alert('Oopsie! something went wrong ' + error)
+        }
+      })
+    });
   },
   error: function(error){
-      console.log(error)
+    alert('Oopsie! something went wrong ' + error)
   }
 })
 
@@ -40,24 +50,34 @@ roomForm.addEventListener('submit', e=>{
       'topic': $('#id_topic').val(),
     },
     success: function(response) {
-      roomCard = `
-      <div class="card mt-4">
-        <h5 class="card-header">${response.name}</h5>
-        <div class="card-body">
-          <p class="card-text">${response.description}</p>
-          <a href="https://google.com/" class="btn btn-dark stretched-link">Go to Room</a>
-        </div>
-      </div>
-      `;
-      $("#all-room").prepend(
-        roomCard
-      )
-      $('#createRoomModal').modal('hide')
-      alert('success', 'New room created!')
-      roomForm.reset()
+      $.ajax ({
+        type: 'GET',
+        url: '../api/topics/' + response.topic,
+        success: function(response_topic){
+          roomCard = `
+          <div class="card mt-4">
+            <h5 class="card-header">${response.name}</h5>
+            <div class="card-body">
+              <p class="card-text">${response.description}</p>
+              <p class="card-text">topic: ${response_topic.name}</p>
+              <a href="../rooms/${response.id}" class="btn btn-dark" id="go-to-room">Go to Room</a>
+            </div>
+          </div>
+          `;
+          $("#all-room").prepend(
+            roomCard
+          )
+          $('#createRoomModal').modal('hide')
+          alert('success', 'New room created!')
+          roomForm.reset()
+        },
+        error: function(error){
+          alert('Oopsie! something went wrong ' + error)
+        }
+      })
     },
     error: function(error){
-      alert('danger', 'Oopsie! something went wrong')
+      alert('Oopsie! something went wrong ' + error)
     }
   })
 })
