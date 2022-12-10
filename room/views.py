@@ -1,3 +1,4 @@
 from django.shortcuts import render
 
-# Create your views here.
+def trending_rooms(request):
+  return render(request, "trending_rooms.html")

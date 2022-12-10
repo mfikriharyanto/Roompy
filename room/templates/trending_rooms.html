@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Trending Rooms{% endblock %}
+
+{% block content %}
+<div class="container p-4">
+    <h2 class="text-center font-weight-bold">Trending Rooms</h2>
+</div>
+<div class="container-fluid">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Rooms</th>
+            <th scope="col">Total Follower</th>
+            <th scope="col">Total Upvote</th>
+            <th scope="col">Total Downvote</th>
+        </tr>
+        </thead>
+        <tbody id="trending_rooms">
+
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/trending_rooms.js' %}" type="text/javascript"></script>
+{% endblock script %}
