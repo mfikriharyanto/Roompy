@@ -8,14 +8,18 @@
         <div class="container p-4">
             <h2 class="text-center font-weight-bold">Create topic</h2>
         </div>
-        <form action="" method="POST">
-            {% csrf_token %}
-            {{form}}
-            <!-- <div class="form-group">
-              <label for="name"> Topic name</label>
-              <input type="text" class="form-control" id="name" name="name">
+        <div class="container">
+            <div class="card m-4 p-4">
+                <div class="card-body">
+                    <div class="justify-content-center">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            {{form}}
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <input type="hidden" class="form-control" id="topic_creator" name="topic_creator" value={{user.id}}> -->
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        </div>
+        
     {% endblock %}
