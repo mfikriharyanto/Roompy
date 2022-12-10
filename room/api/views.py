@@ -49,10 +49,7 @@ def postFollowRoom(request, pk):
 @api_view(['POST'])
 def createRoom(request):
 
-  print("REQUEST: ")
-  print(request.user)
-
-  topic_name = request.data.get('topic')
+  topic_name = request.POST.get('topic')
 
   # create topic if topic doesn't exists
   try:
@@ -63,8 +60,8 @@ def createRoom(request):
   room = Room.objects.create(
       creator=request.user,
       topic=topic,
-      name=request.data.get('name'),
-      description=request.data.get('description')
+      name=request.POST.get('name'),
+      description=request.POST.get('description'),
   )
 
   serializer = RoomSerializer(room, many=False)
