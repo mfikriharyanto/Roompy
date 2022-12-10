@@ -22,4 +22,4 @@ def get_room(request, pk):
     return render(request, 'room.html', context)
     
 def trending_rooms(request):
-  return render(request, "trending_rooms.html")
+  return render(request, "trending_rooms.html") 
