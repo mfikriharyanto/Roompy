@@ -32,7 +32,7 @@ def getTrendingRooms(request):
 @api_view(['POST'])
 def postFollowRoom(request, pk):
   room = Room.objects.get(id=pk)
-  user = User.objects.get(id=request.data.get('user_id'))
+  user = User.objects.get(id=request.user.id)
 
   if room not in user.following_room.all():
       room.total_followers = room.total_followers + 1

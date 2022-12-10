@@ -16,10 +16,11 @@
             <th scope="col">Total Follower</th>
             <th scope="col">Total Upvote</th>
             <th scope="col">Total Downvote</th>
+            <th scope="col">Status</th>
         </tr>
         </thead>
         <tbody id="trending_rooms">
-
+            {% csrf_token %}
         </tbody>
     </table>
 </div>
