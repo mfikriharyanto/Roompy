@@ -6,4 +6,5 @@ app_name = 'room'
 urlpatterns = [
     path('', views.get_rooms, name="get-rooms"),
     path('<str:pk>/', views.get_room, name="get-room"),
+    path('trending-rooms', views.trending_rooms),
 ]

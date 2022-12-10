@@ -20,3 +20,6 @@ def get_room(request, pk):
     'room':room
     }
     return render(request, 'room.html', context)
+    
+def trending_rooms(request):
+  return render(request, "trending_rooms.html")
