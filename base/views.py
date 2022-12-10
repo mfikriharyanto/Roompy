@@ -15,3 +15,6 @@ def register(request):
   }
 
   return render(request, 'register.html', context)
+
+def home(request):
+  return render(request, 'home.html')
