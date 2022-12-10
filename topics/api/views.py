@@ -31,9 +31,11 @@ def getTrendingTopics(request):
   serializer = TopicsSerializer(trending_topics, many=True)
   return Response(serializer.data)
 
-@login_required
 @api_view(['POST'])
 def postFollowTopics(request, pk):
+  if not request.user.is_authenticated:
+    return Response(status=status.HTTP_403_FORBIDDEN)
+  
   topics = Topics.objects.get(id=pk)
   user = User.objects.get(id=request.user.id)
 
@@ -47,9 +49,11 @@ def postFollowTopics(request, pk):
     content = {'Bad Request': 'Youre already following the topic'}
     return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
-@login_required
 @api_view(['POST'])
 def postUnfollowTopics(request, pk):
+  if not request.user.is_authenticated:
+    return Response(status=status.HTTP_403_FORBIDDEN)
+  
   topics = Topics.objects.get(id=pk)
   user = User.objects.get(id=request.user.id)
 
@@ -63,9 +67,11 @@ def postUnfollowTopics(request, pk):
     content = {'Bad Request': 'Youre not following the topic'}
     return Response(content, status=status.HTTP_400_BAD_REQUEST)
 
-@login_required
+
 @api_view(['POST'])
 def createTopics(request):
+  if not request.user.is_authenticated:
+    return Response(status=status.HTTP_403_FORBIDDEN)
 
   topic_name = request.data.get('topic')
   user = User.objects.get(id=request.user.id)
@@ -83,9 +89,11 @@ def createTopics(request):
     serializer = TopicsSerializer(topic, many=False)
     return Response(serializer.data)
 
-@login_required
 @api_view(['GET'])
 def followedTopics(request):
+  if not request.user.is_authenticated:
+    return Response(status=status.HTTP_403_FORBIDDEN)
+    
   user = User.objects.get(id=request.user.id)
 
   topics = TopicsManager.find_user_followed_topics(user)

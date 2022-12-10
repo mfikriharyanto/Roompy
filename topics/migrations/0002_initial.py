@@ -12,24 +12,26 @@ class Migration(migrations.Migration):
     dependencies = [
         ("topics", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ("room", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name="room",
-            name="creator",
+            model_name="topics",
+            name="topic_creator",
             field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="%(class)s_requests_created",
+                to=settings.AUTH_USER_MODEL,
             ),
         ),
         migrations.AddField(
-            model_name="room",
-            name="topic",
-            field=models.ForeignKey(
-                null=True,
-                on_delete=django.db.models.deletion.SET_NULL,
-                to="topics.topics",
+            model_name="topics",
+            name="topic_followers",
+            field=models.ManyToManyField(
+                blank=True,
+                related_name="%(class)s_requests_followers",
+                to=settings.AUTH_USER_MODEL,
             ),
         ),
     ]
