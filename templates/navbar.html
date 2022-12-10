@@ -19,8 +19,8 @@
       <li class="nav-item dropdown mx-1">
         <a class="nav-link dropdown-toggle" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Topic</a>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="/topics">All Topics</a>
-          <a class="dropdown-item" href="/topics/trending-topics">Trending Topics</a>
+          <a class="dropdown-item" href="/topics/all-topic">All Topics</a>
+          <a class="dropdown-item" href="/topics/trending-topic">Trending Topics</a>
         </div>
       </li>
       <li class="nav-item dropdown mx-1">
@@ -32,10 +32,19 @@
       </li>
     </ul>
     {% if user.is_authenticated %}
-      <a href="/profile"><span class="navbar-text mx-3">{{ user }}</span></a>
+    <li class="nav-item">
+      <a href="/profile"><span class="navbar-text">{{ user }}</span></a>
+    </li>
+    <li class="nav-item">
+      <a href="/logout"><span class="navbar-text">logout</span></a>
+    </li>
     {% else %}
-      <a href="/register"><span class="navbar-text mx-3">Register</span></a>
+    <li class="nav-item">
+      <a href="/register"><span class="navbar-text">Register</span></a>
+    </li>
+    <li class="nav-item">
       <a href="/login"><span class="navbar-text mx-3">Login</span></a>
+    </li>
     {% endif %}
   </div>
 </nav>
