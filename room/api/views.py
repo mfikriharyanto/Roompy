@@ -1,4 +1,5 @@
-from rest_framework.decorators import api_view
+from rest_framework import permissions
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -30,6 +31,7 @@ def getTrendingRooms(request):
   return Response(serializer.data)
 
 @api_view(['POST'])
+@permission_classes([permissions.IsAuthenticatedOrReadOnly])
 def postFollowRoom(request, pk):
   room = Room.objects.get(id=pk)
   user = User.objects.get(id=request.user.id)

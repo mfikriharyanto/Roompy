@@ -24,12 +24,14 @@ $.ajax({
                     },
                     url: `../api/rooms/${value.id}/follow`,
                     success: function (response) {
+                        console.log(response)
                         $(`#follow-${value.id}`).text("Followed")
                     }
                     ,
                     error: function(response) {
+                        console.log(response)
                         if (response.status == 403) {
-                            alert("You're not logged in. You must login to follow user.");
+                            alert("You're not logged in. You must login to follow room.");
                         } else {
                             var err = JSON.parse(response.responseText);
                             alert("Gagal mengikuti room.");
@@ -38,5 +40,13 @@ $.ajax({
                 });
             });
         });
+    },
+    error: function(response) {
+        if (response.status == 403) {
+            alert("You're not logged in. You must login to follow room.");
+        } else {
+            var err = JSON.parse(response.responseText);
+            alert("Gagal melihat trending room.");
+        }
     }
 });
