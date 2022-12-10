@@ -32,19 +32,11 @@
       </li>
     </ul>
     {% if user.is_authenticated %}
-    <li class="nav-item">
-      <a href="/profile"><span class="navbar-text">{{ user }}</span></a>
-    </li>
-    <li class="nav-item">
-      <a href="/logout"><span class="navbar-text">logout</span></a>
-    </li>
+      <a href="/profile"><span class="navbar-text mx-3">{{ user }}</span></a>
+      <a href="/logout"><span class="navbar-text mx-3">Logout</span></a>
     {% else %}
-    <li class="nav-item">
-      <a href="/register"><span class="navbar-text">Register</span></a>
-    </li>
-    <li class="nav-item">
+      <a href="/register"><span class="navbar-text mx-3">Register</span></a>
       <a href="/login"><span class="navbar-text mx-3">Login</span></a>
-    </li>
     {% endif %}
   </div>
 </nav>
