@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+	{% block title %}Topics{% endblock %}
+
+    {% block content %}
+        <div class="container p-4">
+            <h2 class="text-center font-weight-bold">Trending Topic</h2>
+            <div class="text-center">
+                {% if user.is_authenticated %}
+                    <a href="/topics/create" class="btn btn-primary">Create Topic</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="container">
+            <div class="card m-4">
+                <div class="card-body">
+                    <div class="justify-content-center">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">topics</th>
+                                    <th scope="col">action</th>
+                                </tr>
+                            </thead>
+                            <tbody id='all_topic'>
+                                {% csrf_token %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    {% endblock %}
+
+	{% block script %}
+    <script>
+        {% if user.is_authenticated %}
+            var userid = {{user.id}}
+        {% else %}
+            var userid = -1
+        {% endif %}
+
+        $(document).ready(function() {
+        $.ajax({
+        type: "GET",
+        url: "/api/topics/trending-topics",
+        success: async function (response) {
+            $.each(response, function(index, value) {
+                console.log(response)
+
+                topic =
+                `<tr id=${value.id}>
+                    <th scope="row">${index+1}</th>
+                    <td><a href="/topics/${value.id}" class="text-dark btn p-0">${value.name} (${value.total_followers})</a></td>
+                </tr>`;
+                $("#all_topic").append(topic);
+            });
+            $.each(response, function(index, value) {
+            var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+            if (value.topic_followers.includes(userid)) {
+                is_followed = `<td><button type="button" id="unfollow-${value.id}" class="btn btn-secondary">Unfollow</button></td>`;
+                $(`#${value.id}`).append(is_followed);
+                $(`#unfollow-${value.id}`).click(function() {
+                $.ajax({
+                    type: "POST",
+                    headers:{
+                    "X-CSRFToken": csrftoken
+                },
+                url: "/api/topics/"+`${value.id}`+"/unfollow",
+                success: function (response) {
+                    location.reload();
+                },
+                error: function(response) {
+                if (response.status == 403) {
+                    alert("You're not logged in. You must login to follow topic.");
+                } else {
+                    var err = JSON.parse(response.responseText);
+                    alert(err.message);
+                }
+                }
+                });
+            });
+            } else {
+            is_followed = `<td><button type="button" id="follow-${value.id}" class="btn btn-primary">Follow</button></td>`;
+            $(`#${value.id}`).append(is_followed);
+            $(`#follow-${value.id}`).click(function() {
+                $.ajax({
+                type: "POST",
+                headers:{
+                    "X-CSRFToken": csrftoken
+                },
+                url: "/api/topics/"+`${value.id}`+"/follow",
+                success: function (response) {
+                    location.reload();
+                },
+                error: function(response) {
+                if (response.status == 403) {
+                    alert("You're not logged in. You must login to follow topics.");
+                } else {
+                    var err = JSON.parse(response.responseText);
+                    alert(err.message);
+                }
+                }
+                });
+            });
+            }
+        });
+        },
+        error: function() {
+        alert("Failed to get top users. Please try again later.")
+        location.reload()
+        }
+    });
+    });
+    </script>
+	{% endblock script %}

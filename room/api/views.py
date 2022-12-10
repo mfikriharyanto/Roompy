@@ -1,4 +1,5 @@
-from rest_framework.decorators import api_view
+from rest_framework import permissions
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -30,9 +31,10 @@ def getTrendingRooms(request):
   return Response(serializer.data)
 
 @api_view(['POST'])
+@permission_classes([permissions.IsAuthenticatedOrReadOnly])
 def postFollowRoom(request, pk):
   room = Room.objects.get(id=pk)
-  user = User.objects.get(id=request.data.get('user_id'))
+  user = User.objects.get(id=request.user.id)
 
   if room not in user.following_room.all():
       room.total_followers = room.total_followers + 1
@@ -47,10 +49,7 @@ def postFollowRoom(request, pk):
 @api_view(['POST'])
 def createRoom(request):
 
-  print("REQUEST: ")
-  print(request.user)
-
-  topic_name = request.data.get('topic')
+  topic_name = request.POST.get('topic')
 
   # create topic if topic doesn't exists
   try:
@@ -61,8 +60,8 @@ def createRoom(request):
   room = Room.objects.create(
       creator=request.user,
       topic=topic,
-      name=request.data.get('name'),
-      description=request.data.get('description')
+      name=request.POST.get('name'),
+      description=request.POST.get('description'),
   )
 
   serializer = RoomSerializer(room, many=False)
