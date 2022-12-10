@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+	{% block title %}{{user.first_name}} {{user.last_name}}{% endblock %}
+
+	{% block content %}
+		<div class="container p-4">
+			<h2 class="text-center font-weight-bold">{{user.first_name}} {{user.last_name}}</h2>
+		</div>
+		<div class="container-fluid">
+            <div class="text-center">
+                <h3>{{user.first_name}} {{user.last_name}}</h3>
+                <p>@{{user.username}}</p>
+                {% if request.user == user %}
+                <a href="/users/{{user.id}}/edit" class="btn btn-primary">Edit Profile</a>
+                {% endif %}
+                <h3>About</h3>
+                <p>
+                  {{user.about}}
+                </p>
+            </div>
+		</div>
+  {% endblock %}

@@ -1,17 +1,29 @@
 from django.shortcuts import render
 from user.forms import ProfileForm
 from django.http import JsonResponse, HttpResponseRedirect
+from user.models import UserManager
 import json
 
-<<<<<<< HEAD
-# Create your views here.
-def edit_user(request, user_id, details):
+def top_users(request):
+    return render(request, "top_users.html")
+
+def get_user(request, pk):
+    if request.method == 'GET':
+        user = UserManager.get_user(pk)
+        if user == None:
+            return HttpResponseRedirect(request.path_info)
+        context = {
+            'user': user
+        }
+        
+    return render(request, 'profile.html', context)
+
+def edit_user(request, pk):
     if request.method == 'POST':
         form = ProfileForm(request.POST)
         if form.is_valid():
             try:
-                name, about = parse_details(details)
-                UserManager.edit_user(user_id, name, about)
+                form.save()
             except:
                 return show_failure_notif("Gagal menyimpan perubahan. Mohon dicoba kembali beberapa saat lagi.")
             return HttpResponseRedirect(request.path_info)
@@ -22,12 +34,3 @@ def edit_user(request, user_id, details):
 
 def show_failure_notif(args):
     return JsonResponse({'status':'false', 'message':args}, status=400)
-
-def parse_details(details):
-    res = json.loads(details)
-    #asumsi username dan email ga bisa diubah
-    return res['first_name'], res['last_name'], res['password'], res['confirm_password'], res['about']
-=======
-def top_users(request):
-  return render(request, "top_users.html")
->>>>>>> 8da2f055a619aede4f83e3516ca1d60108410639

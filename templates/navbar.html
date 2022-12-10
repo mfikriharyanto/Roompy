@@ -32,7 +32,7 @@
       </li>
     </ul>
     {% if user.is_authenticated %}
-      <a href="/profile"><span class="navbar-text mx-3">{{ user }}</span></a>
+      <a href="/users/{{ user.id }}"><span class="navbar-text mx-3">{{ user }}</span></a>
     {% else %}
       <a href="/register"><span class="navbar-text mx-3">Register</span></a>
       <a href="/login"><span class="navbar-text mx-3">Login</span></a>

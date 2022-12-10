@@ -1,4 +1,5 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm
+from django.forms import ModelForm
 from .models import User
 
 class UserRegistrationForm(UserCreationForm):
@@ -6,7 +7,7 @@ class UserRegistrationForm(UserCreationForm):
 		model = User
 		fields = ['username', 'email', 'password1', 'password2']
 
-class ProfileForm(UserChangeForm):
+class ProfileForm(ModelForm):
 	class Meta:
 		model = User
-		fields = ['first_name', 'last_name', 'password', 'confirm_password', 'about']
+		fields = ['first_name', 'last_name', 'password', 'about']

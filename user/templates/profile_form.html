@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+	{% block title %}{{user.first_name}} {{user.last_name}}{% endblock %}
+
+	{% block content %}
+  <div class="d-flex justify-content-center">
+    <form action="/users/{{user.id}}/edit" method="POST">
+      {% csrf_token %}
+      <table>
+        <tr>
+          <td>First Name</td>
+          <td>{{ form.first_name }}</td>
+        </tr>
+        <tr>
+          <td> Last Name</td>
+          <td>{{ form.last_name }}</td>
+        </tr>
+        <tr>
+          <td> New Password </td>
+          <td>{{ form.password }}</td>
+        </tr>
+      </table>
+      <div class="text-center m-2">
+        <button class="btn btn-primary mx-auto" type="submit">Register</button>
+      </div>
+    </form>
+  </div>
+  {% endblock %}
