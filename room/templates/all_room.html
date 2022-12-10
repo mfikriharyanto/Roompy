@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+	{% block title %}Roompy{% endblock %}
+
+	{% block content %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="createRoomModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="text-center modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create Room</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="room-form" class="text-center">
+                        {% if user.is_authenticated %}
+
+                            {% csrf_token %}
+                            
+                            {% for field in form %}
+                                <div class="fieldWrapper">  
+                                    {{ field.errors }}
+                                    
+                                    <p>{{ field.label_tag }} <br> {{ field }}</p>
+                                </div>
+                            {% endfor %}
+
+                            <div class="form__group">
+                                <label for="room_topic">Enter a Topic: </label> <br>
+                                <input id="id_topic" required type="text" value="{{room_topic.name}}" name="topic" list="topic-list" />
+                                <datalist id="topic-list">
+                                  <select id="room_topic">
+                                    {% for topic in topics %}
+                                    <option value="{{topic.name}}">{{topic.name}}</option>
+                                    {% endfor %}
+                                  </select>
+                                </datalist>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Create</button>
+                            </div>
+
+                        {% else %}
+                            <p>Login untuk membuat room! ^_^</p>
+                        {% endif %}
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container p-4">
+        <h2 class="text-center font-weight-bold">Roompy</h2>
+        <div class="mt-4 text-center">
+            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#createRoomModal">
+                Create Room
+            </button>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div id="all-room">
+        </div>
+    </div>
+
+    {% endblock %}
+    
+    {% block script %}
+    <script src="{% static 'js/all_rooms.js' %}"></script>
+	{% endblock script %}
