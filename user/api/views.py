@@ -53,3 +53,17 @@ def get_top_users(request):
   top_users = UserManager.get_top_users(10)
   serializer = UserSerializer(top_users, many=True)
   return Response(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticatedOrReadOnly])
+def check_follow(request, pk):
+  following_user = UserManager.get_user(request.user.id)
+  followed_user = UserManager.get_user(pk)
+
+  if following_user == None or followed_user == None:
+    data = { "is_followed": False }
+    return Response(data)
+
+  flag_follow = UserManager.is_user_follow(following_user, followed_user.id)
+  data = { "is_followed": flag_follow }
+  return Response(data)

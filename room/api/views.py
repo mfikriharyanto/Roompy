@@ -1,13 +1,26 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from room.models import Room
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from room.models import Room, RoomManager
 from user.models import User
+from topics.models import Topics, TopicsManager
 from .serializers import RoomSerializer
 
 @api_view(['GET'])
 def getRooms(request):
   rooms = Room.objects.all()
   serializer = RoomSerializer(rooms, many=True)
+  return Response(serializer.data)
+
+@api_view(['GET'])
+def getRoom(request, pk):
+  room = RoomManager.get_room(pk)
+
+  if room == None:
+    return Response({'message': f'Room with id {pk} does not exist'}, status=404)
+  
+  serializer = RoomSerializer(room, many=False)
   return Response(serializer.data)
 
 @api_view(['GET'])
@@ -30,3 +43,28 @@ def postFollowRoom(request, pk):
 
   serializer = RoomSerializer(room, many=False)
   return Response(serializer.data)
+
+@api_view(['POST'])
+def createRoom(request):
+
+  print("REQUEST: ")
+  print(request.user)
+
+  topic_name = request.data.get('topic')
+
+  # create topic if topic doesn't exists
+  try:
+    topic = Topics.objects.get(name=topic_name)
+  except Topics.DoesNotExist:
+    topic = Topics.objects.create(name= topic_name, topic_creator= request.user)
+
+  room = Room.objects.create(
+      creator=request.user,
+      topic=topic,
+      name=request.data.get('name'),
+      description=request.data.get('description')
+  )
+
+  serializer = RoomSerializer(room, many=False)
+  return Response(serializer.data)
+

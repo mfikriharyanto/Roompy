@@ -3,6 +3,7 @@ from user.forms import ProfileForm
 from django.http import JsonResponse, HttpResponseRedirect
 import json
 
+<<<<<<< HEAD
 # Create your views here.
 def edit_user(request, user_id, details):
     if request.method == 'POST':
@@ -26,3 +27,7 @@ def parse_details(details):
     res = json.loads(details)
     #asumsi username dan email ga bisa diubah
     return res['first_name'], res['last_name'], res['password'], res['confirm_password'], res['about']
+=======
+def top_users(request):
+  return render(request, "top_users.html")
+>>>>>>> 8da2f055a619aede4f83e3516ca1d60108410639

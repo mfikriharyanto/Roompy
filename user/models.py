@@ -63,5 +63,10 @@ class UserManager():
 	def get_top_users(number_of_users):
 		return User.objects.all().order_by('-total_follower_user', 'total_following_user', 'id')[:number_of_users]
 
-	def edit_user(user_id, details):
-		pass
+	def edit_user(user_id, first_name, last_name, password, about):
+		user = UserManager.get_user(user_id)
+		user.first_name = first_name
+		user.last_name = last_name
+		user.password = password
+		user.about = about
+		
